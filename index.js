@@ -1,7 +1,8 @@
 const Logger = require('./logger');
 const Shout = require('./shout');
+const Watch = require('./filewatch');
 
-global.consoleLevel = 'silly';
+global.consoleLevel = 'info';
 
 const send_ip = process.argv[2];
 
@@ -10,4 +11,5 @@ log = new Logger();
 
 sh =  new Shout();
 
-log.info('hello');
+watch = new Watch(sh);
+

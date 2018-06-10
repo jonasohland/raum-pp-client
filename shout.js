@@ -5,6 +5,7 @@ const Netmask = require('netmask').Netmask;
 const internalIP = require('internal-ip');
 const request = require('request');
 const chalk = require('chalk');
+const os = require('os');
 
 const fallbackIP = '127.0.0.1';
 
@@ -19,7 +20,7 @@ class Shout extends EventEmitter {
             // https://randomuser.me/api/
             request('https://randomuser.me/api/', {json: true, timeout: 1000}, (err, res, body) => {
                 if (err) { 
-                    this.name = Date.now();
+                    this.name = os.hostname();
                     return this.log.error(err); 
                 } else {
                     this.name = ''+ body.results[0].login.username;
@@ -42,8 +43,10 @@ class Shout extends EventEmitter {
         this.shouter.on('error', (err) => {
             this.log.error(err);
         });
-
-        this.shouter.bind(() => {
+        this.shouter.on('message', (mess, rinfo) => {
+            this.log.note(`received Message from ${rinfo.address}`);
+        });
+        this.shouter.bind(10005, () => {
             this.shouter.setBroadcast(true);
             this.startShouting();
         });
@@ -53,7 +56,7 @@ class Shout extends EventEmitter {
     shout(mess){
         let out = Buffer.from(mess);
         this.shouter.send(out, 10001, this.ipblock.broadcast, () => {
-            this.log.note(`shouted ${chalk.green(mess)} on ${this.ipblock.broadcast}:10001`);
+            this.log.silly(`shouted ${chalk.green(mess)} on ${this.ipblock.broadcast}:10001`);
         });
     }
 
