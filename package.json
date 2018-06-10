@@ -1,0 +1,27 @@
+{
+  "name": "raum-pp-client",
+  "version": "0.0.1",
+  "description": "raum pp client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonasohland/raum-pp-client.git"
+  },
+  "author": "jonasohland",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonasohland/raum-pp-client/issues"
+  },
+  "homepage": "https://github.com/jonasohland/raum-pp-client#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "install": "^0.11.0",
+    "internal-ip": "^3.0.1",
+    "netmask": "^1.0.6",
+    "request": "^2.87.0",
+    "winston": "^3.0.0-rc6"
+  }
+}
