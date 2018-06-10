@@ -40,13 +40,13 @@ class FileProcessor extends EventEmitter{
 
         }).on('add', (path) => {
             if(path.slice(-4) === '.wav'){
-                log.silly(`File ${path} added`);
+                log.note(`File ${path} added`);
             }
             shout.shout('rec');
                 
         }).on('change', (path => {
-            if(path.slice(-4) === '.wav'){
-                log.silly(`File ${path} changed`);
+            if(path.slice(-4) === '.wav'){            
+                log.note(`File ${path} changed`);
             }
                 
         }));
