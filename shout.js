@@ -13,16 +13,7 @@ class Shout extends EventEmitter {
         if(name != undefined){
             this.name = name
         } else {
-            // https://randomuser.me/api/
-            request('https://randomuser.me/api/', {json: true, timeout: 1000}, (err, res, body) => {
-                if (err) { 
-                    this.name = os.hostname();
-                    return this.log.error(err); 
-                } else {
-                    this.name = ''+ body.results[0].login.username;
-                    this.log.note('My Name is ' + this.name);
-                }
-            });
+            this.name = os.hostname();
 
         }
 
@@ -45,11 +36,12 @@ class Shout extends EventEmitter {
         });
 
 
-
+        // from Server <--
         this.shouter.on('message', (mess, rinfo) => {
             let input = parseUdpPacket(mess);
-            this.log.silly(`received Message from ${rinfo.address}, Message: ${input}`);
+            this.log.note(`received Message from ${rinfo.address}, Message: ${input}`);
             
+            //server connection timeout reset
             if(input === 'server'){
                 if(this.server.status === 'tmt'){
                     log.note('reconnected to server');
@@ -57,7 +49,10 @@ class Shout extends EventEmitter {
                 }
                 this.server.tmt.refresh();
                 this.shoutIp = rinfo.address;
+            } else if (input.slice(0, 4) === 'data'){
+                this.emit('data', mess);
             }
+
         });
 
         this.shouter.bind(10011, () => {
@@ -75,14 +70,21 @@ class Shout extends EventEmitter {
         }
 
     }   
-
+    // to server -->
     shout(mess){
         let out = Buffer.from(mess);
         this.shouter.send(out, 10001, this.shoutIp, () => {
             this.log.silly(`shouted ${mess} on ${this.shoutIp}:10001`);
         });
     }
-
+    // to server -->
+    shoutBuffer(buf){
+        this.shouter.send(buf, 10001, this.shoutIp, (err, bytes) => {
+            if(err) return this.log.error(err);
+            this.log.info(`Shoutet ${bytes} bytes of Buffer`);
+        })
+    }
+    // discovery message -->
     startShouting(){
         const _this = this;
         const interval = setInterval(() => {
@@ -96,7 +98,6 @@ module.exports = Shout;
 
 function parseUdpPacket(message){
     let numbers = [];
-
     for(const b of message){
         numbers.push(b);
     } 

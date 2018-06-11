@@ -15,7 +15,7 @@ class FileProcessor extends EventEmitter{
         this.filestack = [];
 
         //clear directory
-        fs.readdir('/Users/jonasohland/raum-pp-pd', (err, files) => {
+        fs.readdir('/Users/jonasohland/raumpp/raum-pp-pd', (err, files) => {
             if(err){
                 if(err.code === 'ENOENT') log.error('Dir not found');
                 return 0;
