@@ -39,7 +39,7 @@ class Shout extends EventEmitter {
         // from Server <--
         this.shouter.on('message', (mess, rinfo) => {
             let input = parseUdpPacket(mess);
-            this.log.info(`received Message from ${rinfo.address}, Message: ${input}`);
+            this.log.silly(`received Message from ${rinfo.address}, Message: ${input}`);
             
             //server connection timeout reset
             if(input === 'server'){
