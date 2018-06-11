@@ -16,7 +16,10 @@ class FileProcessor extends EventEmitter{
 
         //clear directory
         fs.readdir('/Users/jonasohland/raum-pp-pd', (err, files) => {
-            if(err) return log.error(err)
+            if(err){
+                if(err.code === 'ENOENT') log.error('Dir not found');
+                return 0;
+            }
 
             let wavs = []
 

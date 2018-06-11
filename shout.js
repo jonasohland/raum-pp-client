@@ -55,7 +55,7 @@ class Shout extends EventEmitter {
                     log.note('reconnected to server');
                     this.server.status = 'online';
                 }
-                this.server.tmt.refresh();
+                this.server.tmt.clearTimeout();
                 this.shoutIp = rinfo.address;
             }
         });
