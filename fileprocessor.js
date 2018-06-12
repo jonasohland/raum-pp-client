@@ -78,13 +78,15 @@ class FileProcessor extends EventEmitter{
                     encoder.encode()
                         .then(() => {
                             log.note('encoded -> ' + targetfile);
-                            fs.createReadStream(this.filestack[fstackindex]).pipe(request.post(`http://${shout.shoutIp}:10080/${Date.now()}.mp3`))
+                            log.note(`http://${shout.shoutIp}:10080/${Date.now()}.mp3`);
+                            fs.createReadStream(this.filestack[fstackindex]).pipe(request.post(`http://${shout.shoutIp}:10080/${Date.now()}.mp3`));
+
+                            this.filestack.splice(fstackindex, 1);
                         })
                         .catch((error) => {
                             log.error(error);
 
                         });
-                        this.filestack.splice(fstackindex, 1);
 
                 }
 
