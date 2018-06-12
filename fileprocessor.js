@@ -45,9 +45,8 @@ class FileProcessor extends EventEmitter{
 
         }).on('add', (path) => {
             if(path.slice(-4) === '.wav'){
-                log.note(`File ${path} added`);
                 this.recstack.push(path);
-                log.note(`pushed ${path} to filestack`)
+                log.note(`pushed ${path} to recstack`);
             }
             shout.shout('rec');
                 
@@ -58,6 +57,8 @@ class FileProcessor extends EventEmitter{
                 if(rstackindex !== -1){
                     this.filestack.push(this.recstack[rstackindex]);
                     log.note(`pushed ${this.recstack[rstackindex]} to filestack`);
+                    this.recstack.splice(rstackindex, 1);
+                    log.note(recstack);
                 }
 
             }
