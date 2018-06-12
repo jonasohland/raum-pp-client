@@ -54,54 +54,48 @@ class FileProcessor extends EventEmitter{
             },
         }).on('add', (path => {
             if(path.slice(-4) === '.wav'){    
-                let rstackindex = this.recstack.indexOf(path); 
 
-                
+                //move from rec to filestack
+                this.filestack.push(path);
+                log.note(`pushed ${path} to filestack`);
+                shout.shout('recorded');
+                //encode
+                let fstackindex = this.filestack.indexOf(path);
 
-                if(rstackindex !== -1){
+                let targetfile = this.filestack[fstackindex].slice(0, -4).concat('.mp3');
 
-                    //move from rec to filestack
-                    this.filestack.push(this.recstack[rstackindex]);
-                    log.note(`pushed ${this.recstack[rstackindex]} to filestack`);
-                    this.recstack.splice(rstackindex, 1);
-                    shout.shout('recorded');
-                    //encode
-                    let fstackindex = this.filestack.indexOf(path);
+                const encoder = new Lame({
+                    'output': targetfile,
+                    'bitrate': 128,
+                }).setFile(this.filestack[fstackindex]);
 
-                    let targetfile = this.filestack[fstackindex].slice(0, -4).concat('.mp3');
-
-                    const encoder = new Lame({
-                        'output': targetfile,
-                        'bitrate': 128,
-                    }).setFile(this.filestack[fstackindex]);
-
-                    encoder.encode()
-                        .then(() => {
-                            log.note('encoded -> ' + targetfile);
-                            
-                            fs.unlink(this.filestack[fstackindex], (err) => {
-                                if(err) return log.error(err);
-                                this.filestack.splice(fstackindex, 1);
-                            })
-                
-                            let form = {
-                                file: fs.createReadStream(targetfile)
-                            }
-
-                            request.post({url: `http://${shout.shoutIp}:10080/new`, formData: form}, (err, head, body) => {
-                                if(err) return log.error(err);
-
-
-                            });
-
-                            
+                encoder.encode()
+                    .then(() => {
+                        log.note('encoded -> ' + targetfile);
+                        
+                        fs.unlink(this.filestack[fstackindex], (err) => {
+                            if(err) return log.error(err);
+                            this.filestack.splice(fstackindex, 1);
                         })
-                        .catch((error) => {
-                            log.error(error);
+            
+                        let form = {
+                            file: fs.createReadStream(targetfile)
+                        }
+
+                        request.post({url: `http://${shout.shoutIp}:10080/new`, formData: form}, (err, head, body) => {
+                            if(err) return log.error(err);
+
 
                         });
 
-                }
+                        
+                    })
+                    .catch((error) => {
+                        log.error(error);
+
+                    });
+
+                
 
             }
                 
