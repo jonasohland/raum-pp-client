@@ -2,6 +2,7 @@ const fs = require('fs');
 const fswatch = require('chokidar');
 const Logger = require('./logger');
 const EventEmitter = require('events').EventEmitter;
+const Lame = require('node-lame').lame;
 
 const log = new Logger({
     modulePrefix: '[FSWATCH]',
@@ -58,7 +59,14 @@ class FileProcessor extends EventEmitter{
                     this.filestack.push(this.recstack[rstackindex]);
                     log.note(`pushed ${this.recstack[rstackindex]} to filestack`);
                     this.recstack.splice(rstackindex, 1);
-                    log.note(this.recstack);
+
+                    let targetfile = this.recstack[rstackindex].slice(0, -4);
+                    log.note(targetfile);
+                    /*
+                    const Encoder = new Lame({
+                        'output': 
+                    }).setFile(this.recstack[rstackindex]);*/
+
                 }
 
             }
