@@ -31,7 +31,7 @@ class FileProcessor extends EventEmitter{
                     let pathtofile = '/Users/jonasohland/raum-pp-pd/'.concat(file);
 
                     fs.unlink(pathtofile, (err) => {
-                        log.silly(`file ${pathtofile} deleted`);
+                        log.note(`file ${pathtofile} deleted`);
                         if(err) log.error(err);
                     })
                 }
