@@ -2,7 +2,7 @@ const fs = require('fs');
 const fswatch = require('chokidar');
 const Logger = require('./logger');
 const EventEmitter = require('events').EventEmitter;
-const Lame = require('node-lame').lame;
+const Lame = require('node-lame').Lame;
 
 const log = new Logger({
     modulePrefix: '[FSWATCH]',
