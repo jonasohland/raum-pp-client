@@ -82,14 +82,24 @@ class FileProcessor extends EventEmitter{
                         .then(() => {
                             log.note('encoded -> ' + targetfile);
                             
-
+                            fs.unlink(this.filestack[fstackindex], (err) => {
+                                if(err) return log.error(err);
+                                this.filestack.splice(fstackindex, 1);
+                            })
+                
                             let form = {
-                                file: fs.createReadStream(this.filestack[fstackindex])
+                                file: fs.createReadStream(targetfile)
                             }
                             log.note({url: `http://${shout.shoutIp}:10080/new`, formData: form});
-                            request.post({url: `http://${shout.shoutIp}:10080/new`, formData: form});
+                            request.post({url: `http://${shout.shoutIp}:10080/new`, formData: form}, (err, head, body) => {
+                                if(err) return log.error(err);
 
-                            this.filestack.splice(fstackindex, 1);
+                                log.note(head);
+                                log.note(body);
+
+                            });
+
+                            
                         })
                         .catch((error) => {
                             log.error(error);
