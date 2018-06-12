@@ -49,8 +49,8 @@ class FileProcessor extends EventEmitter{
             ignored: /(^|[\/\\])\../,
             ignoreInitial: true,
             awaitWriteFinish: {
-                stabilityThreshold: 500,
-                pollInterval: 70,
+                stabilityThreshold: 2000,
+                pollInterval: 100,
             },
         }).on('add', (path => {
             if(path.slice(-4) === '.wav'){    
