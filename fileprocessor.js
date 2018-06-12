@@ -5,7 +5,7 @@ const EventEmitter = require('events').EventEmitter;
 const Lame = require('node-lame').Lame;
 const request = require('request');
 
-const homepath = '/Users/jonasohland/raum-pp-pd';
+const homepath = '/home/pi';
 
 
 const log = new Logger({
@@ -51,6 +51,7 @@ class FileProcessor extends EventEmitter{
         }).on('add', (path) => {
             if(path.slice(-4) === '.wav'){
                 this.recstack.push(path);
+                this.recstate.push(0);
                 log.note(`pushed ${path} to recstack`);
                 shout.shout('recording');
             }
@@ -58,8 +59,11 @@ class FileProcessor extends EventEmitter{
                 
         }).on('change', (path => {
             if(path.slice(-4) === '.wav'){    
-
                 let rstackindex = this.recstack.indexOf(path); 
+                if(recstate[rstackindex] == 1){
+
+                }
+                
 
                 if(rstackindex !== -1){
 
@@ -94,8 +98,6 @@ class FileProcessor extends EventEmitter{
                             request.post({url: `http://${shout.shoutIp}:10080/new`, formData: form}, (err, head, body) => {
                                 if(err) return log.error(err);
 
-                                log.note(head);
-                                log.note(body);
 
                             });
 
