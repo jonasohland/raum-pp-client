@@ -93,7 +93,7 @@ class FileProcessor extends EventEmitter{
                             let form = {
                                 file: fs.createReadStream(targetfile)
                             }
-                            log.note({url: `http://${shout.shoutIp}:10080/new`, formData: form});
+                            
                             request.post({url: `http://${shout.shoutIp}:10080/new`, formData: form}, (err, head, body) => {
                                 if(err) return log.error(err);
 
