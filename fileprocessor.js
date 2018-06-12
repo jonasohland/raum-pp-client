@@ -52,15 +52,22 @@ class FileProcessor extends EventEmitter{
             shout.shout('rec');
                 
         }).on('change', (path => {
-            if(path.slice(-4) === '.wav'){            
+            if(path.slice(-4) === '.wav'){    
+
                 log.note(`File ${path} changed`);
                 let rstackindex = this.recstack.indexOf(path); 
+
                 if(rstackindex !== -1){
+
+                    //move from rec to filestack
                     this.filestack.push(this.recstack[rstackindex]);
                     log.note(`pushed ${this.recstack[rstackindex]} to filestack`);
                     this.recstack.splice(rstackindex, 1);
 
-                    let targetfile = this.recstack[rstackindex].slice(0, -4);
+                    //encode
+                    let fstackindex = this.fstack.indexOf(path);
+
+                    let targetfile = this.fstack[fstackindex].slice(0, -4);
                     log.note(targetfile);
                     /*
                     const Encoder = new Lame({
