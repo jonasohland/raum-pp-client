@@ -89,7 +89,7 @@ class Shout extends EventEmitter {
         const _this = this;
         const interval = setInterval(() => {
             _this.shout('discover ' + this.name);
-        }, 3000);
+        }, 2000);
         return interval;
     }
 }

@@ -48,9 +48,9 @@ class FileProcessor extends EventEmitter{
             if(path.slice(-4) === '.wav'){
                 this.recstack.push(path);
                 log.note(`pushed ${path} to recstack`);
+                shout.shout('recording');
             }
-            log.warn('shoutet rec event');
-            shout.shout('recording');
+            
                 
         }).on('change', (path => {
             if(path.slice(-4) === '.wav'){    
