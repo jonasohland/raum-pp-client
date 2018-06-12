@@ -61,9 +61,7 @@ class FileProcessor extends EventEmitter{
         }).on('change', (path => {
             if(path.slice(-4) === '.wav'){    
                 let rstackindex = this.recstack.indexOf(path); 
-                if(recstate[rstackindex] == 1){
 
-                }
                 
 
                 if(rstackindex !== -1){
