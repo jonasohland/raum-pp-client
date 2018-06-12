@@ -67,7 +67,7 @@ class FileProcessor extends EventEmitter{
                     //encode
                     let fstackindex = this.filestack.indexOf(path);
 
-                    let targetfile = this.filestack[fstackindex].slice(0, -4);
+                    let targetfile = this.filestack[fstackindex].slice(0, -4).concat('.mp3');
                     log.note(targetfile);
                     /*
                     const Encoder = new Lame({
