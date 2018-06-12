@@ -58,7 +58,7 @@ class FileProcessor extends EventEmitter{
                     this.filestack.push(this.recstack[rstackindex]);
                     log.note(`pushed ${this.recstack[rstackindex]} to filestack`);
                     this.recstack.splice(rstackindex, 1);
-                    log.note(recstack);
+                    log.note(this.recstack);
                 }
 
             }
