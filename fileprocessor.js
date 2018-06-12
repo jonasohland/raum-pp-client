@@ -3,6 +3,7 @@ const fswatch = require('chokidar');
 const Logger = require('./logger');
 const EventEmitter = require('events').EventEmitter;
 const Lame = require('node-lame').Lame;
+const request = require('request');
 
 const log = new Logger({
     modulePrefix: '[FSWATCH]',
@@ -77,18 +78,13 @@ class FileProcessor extends EventEmitter{
                     encoder.encode()
                         .then(() => {
                             log.note('encoded -> ' + targetfile);
-                            fs.unlink(this.filestack[fstackindex], (err) => {
-                                if(err) return log.error(err);
-                                log.note('deleted ' + this.filestack[fstackindex]);
-                                this.filestack.splice(fstackindex, 1);
-                                shout.shout('encoded');
-                                
-                            })
+                            fs.createReadStream(this.filestack[fstackindex]).pipe(request.post(`http://${shout.shoutIp}:10080/${Date.now()}.mp3`))
                         })
                         .catch((error) => {
                             log.error(error);
 
                         });
+                        this.filestack.splice(fstackindex, 1);
 
                 }
 
