@@ -48,7 +48,7 @@ class FileProcessor extends EventEmitter{
         this.watch = fswatch.watch(homepath, {
             ignored: /(^|[\/\\])\../,
             ignoreInitial: true,
-            followSymlinks: false,
+            awaitWriteFinish: true,
 
         }).on('add', (path) => {
             if(path.slice(-4) === '.wav'){
