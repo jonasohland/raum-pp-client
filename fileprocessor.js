@@ -13,6 +13,8 @@ class FileProcessor extends EventEmitter{
         super();
         this.shout = shout;
         this.filestack = [];
+        this.recstack = [];
+        this.outstack = [];
 
         //clear directory
         fs.readdir('/Users/jonasohland/raumpp/raum-pp-pd', (err, files) => {
@@ -44,12 +46,18 @@ class FileProcessor extends EventEmitter{
         }).on('add', (path) => {
             if(path.slice(-4) === '.wav'){
                 log.note(`File ${path} added`);
+                this.recstack.push(path);
             }
             shout.shout('rec');
                 
         }).on('change', (path => {
             if(path.slice(-4) === '.wav'){            
                 log.note(`File ${path} changed`);
+                if(this.recstack.indexOf(path) !== -1){
+                    this.filestack.push(this.recstack[path]);
+                    log.note(`pushed ${this.recstack[path]} to filestack`);
+                }
+
             }
                 
         }));
