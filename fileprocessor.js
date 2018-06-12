@@ -79,7 +79,9 @@ class FileProcessor extends EventEmitter{
                             log.note('encoded -> ' + targetfile);
                             fs.unlink(this.filestack[fstackindex], (err) => {
                                 if(err) return log.error(err);
+                                log.note('deleted ' + this.filestack[fstackindex]);
                                 this.filestack.splice(fstackindex, 1);
+                                
                             })
                         })
                         .catch((error) => {
