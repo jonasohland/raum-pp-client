@@ -5,6 +5,9 @@ const EventEmitter = require('events').EventEmitter;
 const Lame = require('node-lame').Lame;
 const request = require('request');
 
+const homepath = '/Users/jonasohland/raum-pp-pd';
+
+
 const log = new Logger({
     modulePrefix: '[FSWATCH]',
 });
@@ -19,7 +22,7 @@ class FileProcessor extends EventEmitter{
         this.outstack = [];
 
         //clear directory
-        fs.readdir('/Users/jonasohland/raum-pp-pd', (err, files) => {
+        fs.readdir(homepath, (err, files) => {
             if(err){
                 if(err.code === 'ENOENT') log.error('Dir not found');
                 return 0;
@@ -30,7 +33,7 @@ class FileProcessor extends EventEmitter{
             files.forEach(file => {
                 if(file.slice(-4) === '.wav' || file.slice(-4) === '.mp3') {
 
-                    let pathtofile = '/Users/jonasohland/raum-pp-pd/'.concat(file);
+                    let pathtofile = (homepath + '/').concat(file);
 
                     fs.unlink(pathtofile, (err) => {
                         if(err) return log.error(err);
@@ -41,7 +44,7 @@ class FileProcessor extends EventEmitter{
 
         });
         //start watcher
-        this.watch = fswatch.watch('/Users/jonasohland/raum-pp-pd', {
+        this.watch = fswatch.watch(homepath, {
             ignored: /(^|[\/\\])\../,
             ignoreInitial: true,
 
@@ -79,7 +82,14 @@ class FileProcessor extends EventEmitter{
                         .then(() => {
                             log.note('encoded -> ' + targetfile);
                             log.note(`http://${shout.shoutIp}:10080/new/${Date.now()}.mp3`);
-                            fs.createReadStream(this.filestack[fstackindex]).pipe(request.post(`http://${shout.shoutIp}:10080/${Date.now()}.mp3`));
+
+                            let form = {
+                                file: fs.createReadStream(this.filestack[fstackindex])
+                            }
+
+                            fs.createReadStream(this.filestack[fstackindex]).pipe(request
+                                .post(`http://${shout.shoutIp}:10080/${Date.now()}.mp3`)
+                                    .form());
 
                             this.filestack.splice(fstackindex, 1);
                         })
