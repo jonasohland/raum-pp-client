@@ -20,6 +20,7 @@ class FileProcessor extends EventEmitter{
         this.filestack = [];
         this.recstack = [];
         this.outstack = [];
+        this.recstate = [];
 
         //clear directory
         fs.readdir(homepath, (err, files) => {
