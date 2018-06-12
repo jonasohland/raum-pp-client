@@ -74,7 +74,7 @@ class FileProcessor extends EventEmitter{
                         'bitrate': 128,
                     }).setFile(this.filestack[fstackindex]);
 
-                    enoder.encode()
+                    encoder.encode()
                         .then(() => {
                             log.note('encoded -> ' + targetfile);
                         })
