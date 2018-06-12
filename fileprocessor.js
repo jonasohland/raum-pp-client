@@ -49,7 +49,7 @@ class FileProcessor extends EventEmitter{
                 this.recstack.push(path);
                 log.note(`pushed ${path} to recstack`);
             }
-            shout.shout('rec');
+            shout.shout('recording');
                 
         }).on('change', (path => {
             if(path.slice(-4) === '.wav'){    
@@ -63,7 +63,7 @@ class FileProcessor extends EventEmitter{
                     this.filestack.push(this.recstack[rstackindex]);
                     log.note(`pushed ${this.recstack[rstackindex]} to filestack`);
                     this.recstack.splice(rstackindex, 1);
-
+                    shout.shout('recorded');
                     //encode
                     let fstackindex = this.filestack.indexOf(path);
 
@@ -81,11 +81,13 @@ class FileProcessor extends EventEmitter{
                                 if(err) return log.error(err);
                                 log.note('deleted ' + this.filestack[fstackindex]);
                                 this.filestack.splice(fstackindex, 1);
+                                shout.shout('encoded');
                                 
                             })
                         })
                         .catch((error) => {
                             log.error(error);
+                            
                         });
 
                 }
