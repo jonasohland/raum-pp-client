@@ -49,12 +49,12 @@ class FileProcessor extends EventEmitter{
                 this.recstack.push(path);
                 log.note(`pushed ${path} to recstack`);
             }
+            log.warn('shoutet rec event');
             shout.shout('recording');
                 
         }).on('change', (path => {
             if(path.slice(-4) === '.wav'){    
 
-                log.note(`File ${path} changed`);
                 let rstackindex = this.recstack.indexOf(path); 
 
                 if(rstackindex !== -1){
@@ -68,7 +68,7 @@ class FileProcessor extends EventEmitter{
                     let fstackindex = this.filestack.indexOf(path);
 
                     let targetfile = this.filestack[fstackindex].slice(0, -4).concat('.mp3');
-                    log.note(targetfile);
+
                     const encoder = new Lame({
                         'output': targetfile,
                         'bitrate': 128,
@@ -87,7 +87,7 @@ class FileProcessor extends EventEmitter{
                         })
                         .catch((error) => {
                             log.error(error);
-                            
+
                         });
 
                 }
