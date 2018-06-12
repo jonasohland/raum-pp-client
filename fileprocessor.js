@@ -81,15 +81,13 @@ class FileProcessor extends EventEmitter{
                     encoder.encode()
                         .then(() => {
                             log.note('encoded -> ' + targetfile);
-                            log.note(`http://${shout.shoutIp}:10080/new/${Date.now()}.mp3`);
+                            
 
                             let form = {
                                 file: fs.createReadStream(this.filestack[fstackindex])
                             }
-
-                            fs.createReadStream(this.filestack[fstackindex]).pipe(request
-                                .post(`http://${shout.shoutIp}:10080/${Date.now()}.mp3`)
-                                    .form());
+                            log.note({url: `http://${shout.shoutIp}:10080/new`, formData: form});
+                            request.post({url: `http://${shout.shoutIp}:10080/new`, formData: form});
 
                             this.filestack.splice(fstackindex, 1);
                         })
