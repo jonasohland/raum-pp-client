@@ -77,6 +77,10 @@ class FileProcessor extends EventEmitter{
                     encoder.encode()
                         .then(() => {
                             log.note('encoded -> ' + targetfile);
+                            fs.unlink(this.filestack[fstackindex], (err) => {
+                                if(err) return log.error(err);
+                                this.filestack.splice(fstackindex, 1);
+                            })
                         })
                         .catch((error) => {
                             log.error(error);
