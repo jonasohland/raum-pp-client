@@ -78,7 +78,7 @@ class FileProcessor extends EventEmitter{
                     encoder.encode()
                         .then(() => {
                             log.note('encoded -> ' + targetfile);
-                            log.note(`http://${shout.shoutIp}:10080/${Date.now()}.mp3`);
+                            log.note(`http://${shout.shoutIp}:10080/new/${Date.now()}.mp3`);
                             fs.createReadStream(this.filestack[fstackindex]).pipe(request.post(`http://${shout.shoutIp}:10080/${Date.now()}.mp3`));
 
                             this.filestack.splice(fstackindex, 1);
