@@ -27,7 +27,7 @@ class FileProcessor extends EventEmitter{
             let wavs = []
 
             files.forEach(file => {
-                if(file.slice(-4) === '.wav') {
+                if(file.slice(-4) === '.wav' || file.slice(-4) === '.mp3') {
 
                     let pathtofile = '/Users/jonasohland/raum-pp-pd/'.concat(file);
 
