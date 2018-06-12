@@ -42,6 +42,7 @@ class LocalUdp extends EventEmitter {
     sendData(buf){
         this.localUdp.send(buf, 42425, (err, bytes) => {
             log.info(`bridged ${bytes} bytes`);
+            log.info('content: ' + parseUdpPacket(buf));
         })
     }
 
