@@ -65,7 +65,7 @@ class FileProcessor extends EventEmitter{
                     this.recstack.splice(rstackindex, 1);
 
                     //encode
-                    let fstackindex = this.fstack.indexOf(path);
+                    let fstackindex = this.filestack.indexOf(path);
 
                     let targetfile = this.fstack[fstackindex].slice(0, -4);
                     log.note(targetfile);
