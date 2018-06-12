@@ -48,18 +48,11 @@ class FileProcessor extends EventEmitter{
         this.watch = fswatch.watch(homepath, {
             ignored: /(^|[\/\\])\../,
             ignoreInitial: true,
-            awaitWriteFinish: true,
-
-        }).on('add', (path) => {
-            if(path.slice(-4) === '.wav'){
-                this.recstack.push(path);
-                this.recstate.push(0);
-                log.note(`pushed ${path} to recstack`);
-                shout.shout('recording');
-            }
-            
-                
-        }).on('change', (path => {
+            awaitWriteFinish: {
+                stabilityThreshold: 500,
+                pollInterval: 70,
+            },
+        }).on('add', (path => {
             if(path.slice(-4) === '.wav'){    
                 let rstackindex = this.recstack.indexOf(path); 
 
