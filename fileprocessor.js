@@ -50,7 +50,7 @@ class FileProcessor extends EventEmitter{
                 return 0;
             }
             files.forEach(file => {
-                fs.copyFile(homepath + '/empty/' + file, homepath, (err) => {
+                fs.copyFile(homepath + '/empty/' + file, homepath + file, (err) => {
                     if(err) return log.error(err);
                 });
             });
