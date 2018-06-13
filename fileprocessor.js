@@ -33,7 +33,7 @@ class FileProcessor extends EventEmitter{
             let wavs = []
 
             files.forEach(file => {
-                if((file.slice(-4) === '.wav' || file.slice(-4) === '.mp3') && file.slice(0, 4) !== 'play'){
+                if((file.slice(-4) === '.wav' || file.slice(-4) === '.mp3')){
 
                     let pathtofile = (homepath + '/').concat(file);
 
@@ -66,7 +66,7 @@ class FileProcessor extends EventEmitter{
                 pollInterval: 100,
             },
         }).on('add', (path => {
-            if(path.slice(-4) === '.wav'){    
+            if(path.slice(-4) === '.wav' && file.slice(0, 4) !== 'play'){    
 
                 //move from rec to filestack
                 this.filestack.push(path);
