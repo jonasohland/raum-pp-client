@@ -5,7 +5,7 @@ const EventEmitter = require('events').EventEmitter;
 const Lame = require('node-lame').Lame;
 const request = require('request');
 
-const homepath = '/home/pi';
+const homepath = '/home/pi/raum-pp-pd';
 
 
 const log = new Logger({
@@ -44,6 +44,18 @@ class FileProcessor extends EventEmitter{
             });
 
         });
+        fs.readdir(homepath + '/empty', (err, files) => {
+            if(err){
+                if(err.code === 'ENOENT') log.error(homepath + '/empty' + ' not found');
+                return 0;
+            }
+            files.forEach(file => {
+                fs.copyFile(file, homepath, (err) => {
+                    if(err) return log.error(err);
+                });
+            });
+        });
+        //copy empty files 
         //start watcher
         this.watch = fswatch.watch(homepath, {
             ignored: /(^|[\/\\])\../,
@@ -96,14 +108,17 @@ class FileProcessor extends EventEmitter{
                     })
                     .catch((error) => {
                         log.error(error);
-
+                        
                     });
+
+
 
                 
 
             }
                 
         }));
+
     }
 }
 
