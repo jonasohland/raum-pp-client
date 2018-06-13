@@ -66,7 +66,7 @@ class FileProcessor extends EventEmitter{
                 pollInterval: 100,
             },
         }).on('add', (path => {
-            if(path.slice(-4) === '.wav' && file.slice(0, 4) !== 'play'){    
+            if(path.slice(-4) === '.wav' && path.slice(0, 4) !== 'play'){    
 
                 //move from rec to filestack
                 this.filestack.push(path);
