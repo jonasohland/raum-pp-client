@@ -66,7 +66,7 @@ class Shout extends EventEmitter {
                 this.server.status = 'tmt';
                 this.log.warn('server has timed out');
                 this.shoutIp = this.ipblock.broadcast;
-            }, 5000),
+            }, 6000),
         }
 
     }   
@@ -89,7 +89,7 @@ class Shout extends EventEmitter {
         const _this = this;
         const interval = setInterval(() => {
             _this.shout('discover ' + this.name);
-        }, 2000);
+        }, 1000);
         return interval;
     }
 }

@@ -76,7 +76,7 @@ class FileProcessor extends EventEmitter{
                 let fstackindex = this.filestack.indexOf(path);
 
                 let targetfile = this.filestack[fstackindex].slice(0, -4).concat('.mp3');
-
+            
                 const encoder = new Lame({
                     'output': targetfile,
                     'bitrate': 128,
