@@ -140,7 +140,7 @@ class FileProcessor extends EventEmitter{
                         }
                         else writehead++
 
-                        log.note('downloaded File');
+                        log.note(`downloaded File ${targetplaywav}`);
                     });
                 }).catch(err => {return log.error(err)});
             })
