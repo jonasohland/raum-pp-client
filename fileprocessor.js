@@ -76,6 +76,7 @@ class FileProcessor extends EventEmitter{
                         fs.unlink(this.filestack[fstackindex], (err) => {
                             if(err) return log.error(err);
                             this.filestack.splice(fstackindex, 1);
+                            shout.shout('encoded');
                         })
             
                         let form = {
@@ -84,7 +85,10 @@ class FileProcessor extends EventEmitter{
 
                         request.post({url: `http://${shout.shoutIp}:10080/new`, formData: form}, (err, head, body) => {
                             if(err) return log.error(err);
-                            
+                            fs.unlink(targetfile, () => {
+                                log.note('deleted ' + targetfile);
+                                shout.shout('uploaded');
+                            })
 
                         });
 
