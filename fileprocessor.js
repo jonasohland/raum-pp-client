@@ -139,6 +139,8 @@ class FileProcessor extends EventEmitter{
                             writehead = 1;
                         }
                         else writehead++
+
+                        log.note('downloaded File');
                     });
                 }).catch(err => {return log.error(err)});
             })
