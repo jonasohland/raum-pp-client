@@ -33,11 +33,11 @@ class FileProcessor extends EventEmitter{
             let wavs = []
 
             files.forEach(file => {
-                if(file.slice(-4) === '.wav' || file.slice(-4) === '.mp3') {
+                if((file.slice(-4) === '.wav' || file.slice(-4) === '.mp3') && file.slice(4) !== 'play'){
 
                     let pathtofile = (homepath + '/').concat(file);
 
-                    fs.unlinkSync(pathtofile)
+                    fs.unlinkSync(pathtofile);
                     log.note(`file ${pathtofile} deleted`);
                     
                 }
