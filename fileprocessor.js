@@ -140,7 +140,7 @@ class FileProcessor extends EventEmitter{
                         }
                         else writehead++
                     });
-                }).catch(err){return log.error(err);}
+                }).catch(err => {return log.error(err)});
             })
 
             request.get(`http://${shout.shoutIp}:10080/get`).on('error', (err) => {
