@@ -36,10 +36,9 @@ class FileProcessor extends EventEmitter{
 
                     let pathtofile = (homepath + '/').concat(file);
 
-                    fs.unlink(pathtofile, (err) => {
-                        if(err) return log.error(err);
-                        log.note(`file ${pathtofile} deleted`);
-                    })
+                    fs.unlinkSync(pathtofile)
+                    log.note(`file ${pathtofile} deleted`);
+                    
                 }
             });
 
