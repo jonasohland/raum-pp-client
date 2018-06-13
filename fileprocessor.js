@@ -7,6 +7,7 @@ const request = require('request');
 
 const homepath = '/home/pi/raum-pp-pd';
 
+let writehead = 0;
 
 const log = new Logger({
     modulePrefix: '[FSWATCH]',
@@ -118,6 +119,36 @@ class FileProcessor extends EventEmitter{
             }
                 
         }));
+        //request new files 
+        
+        this.req = setInterval(() => {
+
+            let targetplaymp3_stream = fs.createWriteStream(`${homepath}play${writehead}.mp3`);
+            let targetplaywav = `${homepath}play${writehead}.wav`;
+            let targetplaymp3 = `${homepath}play${writehead}.mp3`;
+
+            targetplaymp3_stream.on('close', () => {
+                const decoder = new Lame({
+                    'output': targetplaywav
+                }).setFile(targetplaymp3);
+
+                decoder.decode()
+                .then(() => {
+                    fs.unlink(targetplaymp3, () => {
+                        if(writehead === 5){
+                            writehead = 1;
+                        }
+                        else writehead++
+                    });
+                }).catch(err){return log.error(err);}
+            })
+
+            request.get(`http://${shout.shoutIp}:10080/get`).on('error', (err) => {
+                log.error(err);
+            }).pipe(targetplaymp3_stream);
+
+
+        }, 10000);
 
     }
 }
