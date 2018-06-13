@@ -123,9 +123,9 @@ class FileProcessor extends EventEmitter{
         
         this.req = setInterval(() => {
 
-            let targetplaymp3_stream = fs.createWriteStream(`${homepath}play${writehead}.mp3`);
-            let targetplaywav = `${homepath}play${writehead}.wav`;
-            let targetplaymp3 = `${homepath}play${writehead}.mp3`;
+            let targetplaymp3_stream = fs.createWriteStream(`${homepath}/play${writehead}.mp3`);
+            let targetplaywav = `${homepath}/play${writehead}.wav`;
+            let targetplaymp3 = `${homepath}/play${writehead}.mp3`;
 
             targetplaymp3_stream.on('close', () => {
                 const decoder = new Lame({
