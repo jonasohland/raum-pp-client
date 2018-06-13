@@ -7,7 +7,7 @@ const request = require('request');
 
 const homepath = '/home/pi/raum-pp-pd';
 
-let writehead = 0;
+let writehead = 1;
 
 const log = new Logger({
     modulePrefix: '[FSWATCH]',
