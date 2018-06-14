@@ -153,7 +153,7 @@ class FileProcessor extends EventEmitter{
             }).pipe(targetplaymp3_stream);
 
 
-        }, 5000);
+        }, 10000);
 
     }
 }
