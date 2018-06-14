@@ -128,6 +128,7 @@ class FileProcessor extends EventEmitter{
             let targetplaymp3 = `${homepath}/play${writehead}.mp3`;
 
             targetplaymp3_stream.on('close', () => {
+                note.note('Stream closed');
                 const decoder = new Lame({
                     'output': targetplaywav
                 }).setFile(targetplaymp3);
@@ -142,7 +143,7 @@ class FileProcessor extends EventEmitter{
 
                         log.note(`downloaded File ${targetplaywav}`);
                     });
-                }).catch(err => {return log.error(err)});
+                }).catch(err => {return log.error('ERROR'+ err)});
             })
 
             request.get(`http://${shout.shoutIp}:10080/get`).on('error', (err) => {
