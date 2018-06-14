@@ -128,7 +128,7 @@ class FileProcessor extends EventEmitter{
             let targetplaymp3 = `${homepath}/play${writehead}.mp3`;
 
             targetplaymp3_stream.on('close', () => {
-                note.note('Stream closed');
+                log.note('Stream closed');
                 const decoder = new Lame({
                     'output': targetplaywav
                 }).setFile(targetplaymp3);
