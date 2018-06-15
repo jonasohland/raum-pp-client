@@ -2,7 +2,7 @@ const Logger = require('./logger');
 const Shout = require('./shout');
 const FProcess = require('./fileprocessor');
 const LocalUdp = require('./localUdp');
-global.consoleLevel = 'info';
+global.consoleLevel = 'note';
 
 const send_ip = process.argv[2];
 
